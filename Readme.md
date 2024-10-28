@@ -7,7 +7,7 @@
 ### Step
 **1. Clone Repo dan Masuk ke folder**
 ```
-git clone https://github.com/yogik23/skw-gratis.git
+git clone https://github.com/yogik23/skw-gratis.git && cd skw-gratis
 ```
 **2. Install Module**
 ```
