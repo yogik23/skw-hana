@@ -15,7 +15,7 @@ npm install
 ```
 **3. Edit file `data.json` submit Privatekey dan Refresh token**
 ```
-nano data.json
+nano dataSKW.json
 ```
 format `data.json`
 ```
@@ -35,5 +35,13 @@ format `data.json`
 npm run start
 ```
 
+**Cara mendapatkan reffreshtoken**
+
+**1. buka web hanafuda \
+2. Klik kanan inspect / ctrl shit + i \
+3. Aplikasi \
+4. Session storage \
+5. Pilih `https://hanafuda.h...` \
+6. stsTokenManager > refreshToken**
 
 ### BOT GRATIS JANGAN DIJUAL 
