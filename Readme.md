@@ -7,7 +7,7 @@
 ### Step
 **1. Clone Repo dan Masuk ke folder**
 ```
-git clone https://github.com/yogik23/skw-gratis.git && cd skw-gratis
+git clone https://github.com/yogik23/skw-hana.git && cd skw-hana
 ```
 **2. Install Module**
 ```
@@ -44,4 +44,7 @@ npm run start
 5. Pilih `https://hanafuda.h...` \
 6. stsTokenManager > refreshToken**
 
+![ssw](https://github.com/user-attachments/assets/06bc88d2-470c-4409-abc2-602e83e814d8)
+
 ### BOT GRATIS JANGAN DIJUAL 
+
