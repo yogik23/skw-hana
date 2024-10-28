@@ -73,13 +73,13 @@ async function javnosensor(refreshToken) {
     console.clear();
     displayskw1();
     console.log(`\n`);
-    console.log(chalk.hex('#FF4500')(" ╔══════════════════════════════════════════════════════════════════╗"));
+    console.log(chalk.hex('#FF4500')(" ╔══════════════════════════════════════════════════════════╗"));
     console.log(chalk.hex('#e0ffff')(` ║💀 Akun ${xnxx}                                         `));
     console.log(chalk.hex('#FFFF00')(` ║💰 POINTS: ${balance}                                     `));
     console.log(chalk.hex('#FFD700')(` ║⚱️ Total Deposit: ${deposit}                                 `));
     console.log(chalk.hex('#1E90FF')(` ║🏺 Total Grow: ${grow}                                     `));
     console.log(chalk.hex('#00FFFF')(` ║🏮 Total Garden: ${garden}                                  `));
-    console.log(chalk.hex('#FF4500')(" ╚══════════════════════════════════════════════════════════════════╝"));
+    console.log(chalk.hex('#FF4500')(" ╚══════════════════════════════════════════════════════════╝"));
     console.log();
 
     while (grow > 0) {
@@ -96,7 +96,7 @@ async function javnosensor(refreshToken) {
 
         console.log(chalk.hex('#00FF00')(`✅ Berhasil Mendapatkan ${reward} Point`));
         console.log(chalk.hex('#FFD700')(`💰 Total Point: ${balance}`));
-        console.log(chalk.hex('#006400')(`🏺 Grow Tersisa: ${grow}`));
+        console.log(chalk.hex('#e0ffff')(`🏺 Grow Tersisa: ${grow}`));
 
         const commitQuery = {
             query: "mutation commitGrowAction { commitGrowAction }",
@@ -112,11 +112,11 @@ async function javnosensor(refreshToken) {
             variables: { limit: 10 },
             operationName: "executeGardenRewardAction"
         };
+        console.log(chalk.hex('#dda0dd')(`🔄 Melakukan Draw Hanafuda`));
         const mineGarden = await javhd(API_URL, 'POST', gardenActionQuery);
-        console.log(JSON.stringify(mineGarden, null, 2));
         if (Array.isArray(mineGarden.data.executeGardenRewardAction)) {
             const cardIds = mineGarden.data.executeGardenRewardAction.map(item => item.data.cardId);
-            console.log(`Opened Garden: ${cardIds}`);
+            console.log(chalk.hex('#00FF00')(`🧧 Berhasil Mendapatkan: ${cardIds}\n`));
         } else {
             console.log("executeGardenRewardAction is not an array.");
         }
@@ -152,12 +152,12 @@ async function javnosensorgrow(refreshToken) {
     console.clear();
     displayskw1();
     console.log(`\n`);
-    console.log(chalk.hex('#FF4500')(" ╔══════════════════════════════════════════════════════════════════╗"));
+    console.log(chalk.hex('#FF4500')(" ╔══════════════════════════════════════════════════════════╗"));
     console.log(chalk.hex('#e0ffff')(` ║💀 Akun ${xnxx}                                         `));
     console.log(chalk.hex('#FFFF00')(` ║💰 POINTS: ${balance}                                     `));
     console.log(chalk.hex('#FFD700')(` ║⚱️ Total Deposit: ${deposit}                                 `));
     console.log(chalk.hex('#1E90FF')(` ║🏺 Total Grow: ${grow}                                     `));
-    console.log(chalk.hex('#FF4500')(" ╚══════════════════════════════════════════════════════════════════╝"));
+    console.log(chalk.hex('#FF4500')(" ╚══════════════════════════════════════════════════════════╝"));
     console.log();
 
     while (grow > 0) {
@@ -174,7 +174,7 @@ async function javnosensorgrow(refreshToken) {
 
         console.log(chalk.hex('#00FF00')(`✅ Berhasil Mendapatkan ${reward} Point`));
         console.log(chalk.hex('#FFD700')(`💰 Total Point: ${balance}`));
-        console.log(chalk.hex('#006400')(`🏺 Grow Tersisa: ${grow}`));
+        console.log(chalk.hex('#e0ffff')(`🏺 Grow Tersisa: ${grow}`));
 
         const commitQuery = {
             query: "mutation commitGrowAction { commitGrowAction }",
@@ -214,12 +214,12 @@ async function javnosensorgarden(refreshToken) {
     console.clear();
     displayskw1();
     console.log(`\n`);
-    console.log(chalk.hex('#FF4500')(" ╔══════════════════════════════════════════════════════════════════╗"));
+    console.log(chalk.hex('#FF4500')(" ╔══════════════════════════════════════════════════════════╗"));
     console.log(chalk.hex('#e0ffff')(` ║💀 Akun ${xnxx}                                         `));
     console.log(chalk.hex('#FFFF00')(` ║💰 POINTS: ${balance}                                     `));
     console.log(chalk.hex('#FFD700')(` ║⚱️ Total Deposit: ${deposit}                                 `));
     console.log(chalk.hex('#00FFFF')(` ║🏮 Total Garden: ${garden}                                  `));
-    console.log(chalk.hex('#FF4500')(" ╚══════════════════════════════════════════════════════════════════╝"));
+    console.log(chalk.hex('#FF4500')(" ╚══════════════════════════════════════════════════════════╝"));
     console.log();
 
     while (garden >= 10) {
@@ -228,11 +228,11 @@ async function javnosensorgarden(refreshToken) {
             variables: { limit: 10 },
             operationName: "executeGardenRewardAction"
         };
+        console.log(chalk.hex('#dda0dd')(`🔄 Melakukan Draw Hanafuda`));
         const mineGarden = await javhd(API_URL, 'POST', gardenActionQuery);
-        console.log(JSON.stringify(mineGarden, null, 2));
         if (Array.isArray(mineGarden.data.executeGardenRewardAction)) {
             const cardIds = mineGarden.data.executeGardenRewardAction.map(item => item.data.cardId);
-            console.log(`Opened Garden: ${cardIds}`);
+            console.log(chalk.hex('#00FF00')(`🧧 Berhasil Mendapatkan: ${cardIds}\n`));
         } else {
             console.log("executeGardenRewardAction is not an array.");
         }
