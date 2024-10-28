@@ -3,7 +3,9 @@ const fs = require('fs');
 const chalk = require('chalk');
 const { displayskw1 } = require('./diskw');
 
-const accessTokens = fs.readFileSync('token.txt', 'utf-8').split('\n').filter(Boolean);
+const data = fs.readFileSync('credentials.json', 'utf-8');
+const credentials = JSON.parse(data);
+const accessTokens = credentials.map(cred => cred.accessToken);
 const API_URL = "https://hanafuda-backend-app-520478841386.us-central1.run.app/graphql";
 
 const headers = {
@@ -83,12 +85,13 @@ async function javnosensor(refreshToken) {
 
         console.log(chalk.hex('#00FF00')(`✅ Berhasil Mendapatkan ${reward} Point`));
         console.log(chalk.hex('#FFD700')(`💰 Total Point: ${balance}`));
-        console.log(chalk.hex('#006400')(`🏺 Grow Tersisa: ${grow}\n`));
+        console.log(chalk.hex('#006400')(`🏺 Grow Tersisa: ${grow}`));
 
         const commitQuery = {
             query: "mutation commitGrowAction { commitGrowAction }",
             operationName: "commitGrowAction"
         };
+        console.log(chalk.hex('#FFD700')(`⏳ Mengirim data Tunggu Sebentar\n`));
         await javhd(API_URL, 'POST', commitQuery);
     }
 
@@ -155,12 +158,13 @@ async function javnosensorgrow(refreshToken) {
 
         console.log(chalk.hex('#00FF00')(`✅ Berhasil Mendapatkan ${reward} Point`));
         console.log(chalk.hex('#FFD700')(`💰 Total Point: ${balance}`));
-        console.log(chalk.hex('#006400')(`🏺 Grow Tersisa: ${grow}\n`));
+        console.log(chalk.hex('#006400')(`🏺 Grow Tersisa: ${grow}`));
 
         const commitQuery = {
             query: "mutation commitGrowAction { commitGrowAction }",
             operationName: "commitGrowAction"
         };
+        console.log(chalk.hex('#FFD700')(`⏳ Mengirim data Tunggu Sebentar\n`));
         await javhd(API_URL, 'POST', commitQuery);
     }
 }
