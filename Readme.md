@@ -4,12 +4,18 @@
 - Auto Tx
 - Auto Claim Grow dan Garden
 
+### [Link Hanafuda](https://hanafuda.hana.network)
+Gunakan Code
+```
+Y9IJ72
+```
+
 ### Step
 **1. Clone Repo dan Masuk ke folder**
 ```
 git clone https://github.com/yogik23/skw-hana.git && cd skw-hana
 ```
-**2. Install Module**
+**2. Install Module `abaikan jika muncul eror yg penting sudah install`**
 ```
 npm install
 ```
