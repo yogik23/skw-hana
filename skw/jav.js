@@ -72,7 +72,7 @@ async function javnosensor(refreshToken) {
     console.log();
 
     while (grow > 0) {
-        console.log(chalk.hex('#dda0dd')(`🔄 Mencoba Mengklaim Grow`));
+        console.log(chalk.hex('#FFA07A')(`🔄 Mencoba Mengklaim Grow`));
         await new Promise(resolve => setTimeout(resolve, 2000));
         const actionQuery = {
             query: "mutation issueGrowAction { issueGrowAction }",
@@ -83,15 +83,15 @@ async function javnosensor(refreshToken) {
         balance += reward;
         grow -= 1;
 
-        console.log(chalk.hex('#00FF00')(`✅ Berhasil Mendapatkan ${reward} Point`));
+        console.log(chalk.hex('#32CD32')(`✅ Berhasil Mendapatkan ${reward} Point`));
         console.log(chalk.hex('#FFD700')(`💰 Total Point: ${balance}`));
-        console.log(chalk.hex('#006400')(`🏺 Grow Tersisa: ${grow}`));
+        console.log(chalk.hex('#1E90FF')(`🏺 Grow Tersisa: ${grow}`));
 
         const commitQuery = {
             query: "mutation commitGrowAction { commitGrowAction }",
             operationName: "commitGrowAction"
         };
-        console.log(chalk.hex('#FFD700')(`⏳ Mengirim data Tunggu Sebentar\n`));
+        console.log(chalk.hex('#FF4500')(`⏳ Mengirim data Tunggu Sebentar\n`));
         await javhd(API_URL, 'POST', commitQuery);
     }
 
@@ -145,7 +145,7 @@ async function javnosensorgrow(refreshToken) {
     console.log();
 
     while (grow > 0) {
-        console.log(chalk.hex('#dda0dd')(`🔄 Mencoba Mengklaim Grow`));
+        console.log(chalk.hex('#FFA07A')(`🔄 Mencoba Mengklaim Grow`));
         await new Promise(resolve => setTimeout(resolve, 2000));
         const actionQuery = {
             query: "mutation issueGrowAction { issueGrowAction }",
@@ -156,15 +156,15 @@ async function javnosensorgrow(refreshToken) {
         balance += reward;
         grow -= 1;
 
-        console.log(chalk.hex('#00FF00')(`✅ Berhasil Mendapatkan ${reward} Point`));
+        console.log(chalk.hex('#32CD32')(`✅ Berhasil Mendapatkan ${reward} Point`));
         console.log(chalk.hex('#FFD700')(`💰 Total Point: ${balance}`));
-        console.log(chalk.hex('#006400')(`🏺 Grow Tersisa: ${grow}`));
+        console.log(chalk.hex('#1E90FF')(`🏺 Grow Tersisa: ${grow}`));
 
         const commitQuery = {
             query: "mutation commitGrowAction { commitGrowAction }",
             operationName: "commitGrowAction"
         };
-        console.log(chalk.hex('#FFD700')(`⏳ Mengirim data Tunggu Sebentar\n`));
+        console.log(chalk.hex('#FF4500')(`⏳ Mengirim data Tunggu Sebentar\n`));
         await javhd(API_URL, 'POST', commitQuery);
     }
 }
