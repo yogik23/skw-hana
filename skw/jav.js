@@ -47,7 +47,7 @@ async function javthresome(refreshToken) {
 async function javnosensor(refreshToken) {
     console.clear();
     displayskw1();
-    console.log(chalk.hex('#e0ffff')(`\n\nMencoba Login Mendapatkan DATA Tunggu Sebentar!`));
+    console.log(chalk.hex('#e0ffff')(`\n\nMencoba Login dan mendapatkan DATA Tunggu Sebentar!`));
     const newAccessToken = await javthresome(refreshToken);
     headers['Authorization'] = `Bearer ${newAccessToken}`;
 
@@ -112,11 +112,13 @@ async function javnosensor(refreshToken) {
             variables: { limit: 10 },
             operationName: "executeGardenRewardAction"
         };
-        console.log(chalk.hex('#dda0dd')(`🔄 Melakukan Draw Hanafuda`));
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        console.log(chalk.hex('#dda0dd')(`🔄 Melakukan Draw Garden/Hanafuda`));
         const mineGarden = await javhd(API_URL, 'POST', gardenActionQuery);
         if (Array.isArray(mineGarden.data.executeGardenRewardAction)) {
             const cardIds = mineGarden.data.executeGardenRewardAction.map(item => item.data.cardId);
             console.log(chalk.hex('#00FF00')(`🧧 Berhasil Mendapatkan: ${cardIds}\n`));
+            console.log(chalk.hex('#FF4500')(`⏳ Menunggu Proses berikutnya...\n`));
         } else {
             console.log("executeGardenRewardAction is not an array.");
         }
@@ -127,7 +129,7 @@ async function javnosensor(refreshToken) {
 async function javnosensorgrow(refreshToken) {
     console.clear();
     displayskw1();
-    console.log(chalk.hex('#e0ffff')(`\n\nMencoba Login Mendapatkan DATA Tunggu Sebentar!`));
+    console.log(chalk.hex('#e0ffff')(`\n\nMencoba Login dan mendapatkan DATA Tunggu Sebentar!`));
     const newAccessToken = await javthresome(refreshToken);
     headers['Authorization'] = `Bearer ${newAccessToken}`;
 
@@ -189,7 +191,7 @@ async function javnosensorgrow(refreshToken) {
 async function javnosensorgarden(refreshToken) {
     console.clear();
     displayskw1();
-    console.log(chalk.hex('#e0ffff')(`\n\nMencoba Login Mendapatkan DATA Tunggu Sebentar!`));
+    console.log(chalk.hex('#e0ffff')(`\n\nMencoba Login dan Mendapatkan DATA Tunggu Sebentar!`));
     const newAccessToken = await javthresome(refreshToken);
     headers['Authorization'] = `Bearer ${newAccessToken}`;
 
@@ -228,11 +230,13 @@ async function javnosensorgarden(refreshToken) {
             variables: { limit: 10 },
             operationName: "executeGardenRewardAction"
         };
-        console.log(chalk.hex('#dda0dd')(`🔄 Melakukan Draw Hanafuda`));
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        console.log(chalk.hex('#dda0dd')(`🔄 Melakukan Draw Garden/Hanafuda`));
         const mineGarden = await javhd(API_URL, 'POST', gardenActionQuery);
         if (Array.isArray(mineGarden.data.executeGardenRewardAction)) {
             const cardIds = mineGarden.data.executeGardenRewardAction.map(item => item.data.cardId);
-            console.log(chalk.hex('#00FF00')(`🧧 Berhasil Mendapatkan: ${cardIds}\n`));
+            console.log(chalk.hex('#00FF00')(`🧧 Berhasil Mendapatkan: ${cardIds}`));
+            console.log(chalk.hex('#FF4500')(`⏳ Menunggu Proses berikutnya...\n`));
         } else {
             console.log("executeGardenRewardAction is not an array.");
         }
