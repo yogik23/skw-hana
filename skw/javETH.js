@@ -3,9 +3,11 @@ const fs = require('fs');
 const chalk = require('chalk');
 const { displayskw1 } = require('./diskw');
 
+const data = fs.readFileSync('credentials.json', 'utf-8');
+const credentials = JSON.parse(data);
+const privateKeys = credentials.map(cred => cred.privateKey);
 const CONTRACT_ADDRESS = "0xC5bf05cD32a14BFfb705Fb37a9d218895187376c";
 const web3 = new Web3();
-const privateKeys = fs.readFileSync('pvkey.txt', 'utf-8').split('\n').filter(Boolean);
 
 const contractABI = JSON.parse(`
 [
