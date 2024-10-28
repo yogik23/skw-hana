@@ -91,7 +91,7 @@ async function javnosensor(refreshToken) {
             query: "mutation commitGrowAction { commitGrowAction }",
             operationName: "commitGrowAction"
         };
-        console.log(chalk.hex('#FF4500')(`⏳ Mengirim data Tunggu Sebentar\n`));
+        console.log(chalk.hex('#FF4500')(`⏳ Menunggu Proses berikutnya...\n`));
         await javhd(API_URL, 'POST', commitQuery);
     }
 
@@ -164,7 +164,7 @@ async function javnosensorgrow(refreshToken) {
             query: "mutation commitGrowAction { commitGrowAction }",
             operationName: "commitGrowAction"
         };
-        console.log(chalk.hex('#FF4500')(`⏳ Mengirim data Tunggu Sebentar\n`));
+        console.log(chalk.hex('#FF4500')(`⏳ Menunggu Proses berikutnya...\n`));
         await javhd(API_URL, 'POST', commitQuery);
     }
 }
