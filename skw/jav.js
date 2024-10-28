@@ -3,7 +3,7 @@ const fs = require('fs');
 const chalk = require('chalk');
 const { displayskw1 } = require('./diskw');
 
-const data = fs.readFileSync('credentials.json', 'utf-8');
+const data = fs.readFileSync('dataSKW.json', 'utf-8');
 const credentials = JSON.parse(data);
 const accessTokens = credentials.map(cred => cred.accessToken);
 const API_URL = "https://hanafuda-backend-app-520478841386.us-central1.run.app/graphql";
@@ -15,13 +15,24 @@ const headers = {
 };
 
 async function javhd(url, method, payloadData) {
-    const response = await axios({
+    const config = {
         method,
         url,
         headers,
         data: payloadData
-    });
-    return response.data;
+    };
+
+    for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+            const response = await axios(config);
+            return response.data;
+        } catch (error) {
+            if (attempt === 2) {
+                throw error;
+            }
+            console.log(`Retrying... (${attempt + 1}/3)`);
+        }
+    }
 }
 
 async function javthresome(refreshToken) {
@@ -72,7 +83,7 @@ async function javnosensor(refreshToken) {
     console.log();
 
     while (grow > 0) {
-        console.log(chalk.hex('#FFA07A')(`🔄 Mencoba Mengklaim Grow`));
+        console.log(chalk.hex('#dda0dd')(`🔄 Mencoba Mengklaim Grow`));
         await new Promise(resolve => setTimeout(resolve, 2000));
         const actionQuery = {
             query: "mutation issueGrowAction { issueGrowAction }",
@@ -83,9 +94,9 @@ async function javnosensor(refreshToken) {
         balance += reward;
         grow -= 1;
 
-        console.log(chalk.hex('#32CD32')(`✅ Berhasil Mendapatkan ${reward} Point`));
+        console.log(chalk.hex('#00FF00')(`✅ Berhasil Mendapatkan ${reward} Point`));
         console.log(chalk.hex('#FFD700')(`💰 Total Point: ${balance}`));
-        console.log(chalk.hex('#1E90FF')(`🏺 Grow Tersisa: ${grow}`));
+        console.log(chalk.hex('#006400')(`🏺 Grow Tersisa: ${grow}`));
 
         const commitQuery = {
             query: "mutation commitGrowAction { commitGrowAction }",
@@ -102,8 +113,13 @@ async function javnosensor(refreshToken) {
             operationName: "executeGardenRewardAction"
         };
         const mineGarden = await javhd(API_URL, 'POST', gardenActionQuery);
-        const cardIds = mineGarden.data.executeGardenRewardAction.data.map(item => item.cardId);
-        console.log(`Opened Garden: ${cardIds}`);
+        console.log(JSON.stringify(mineGarden, null, 2));
+        if (Array.isArray(mineGarden.data.executeGardenRewardAction)) {
+            const cardIds = mineGarden.data.executeGardenRewardAction.map(item => item.data.cardId);
+            console.log(`Opened Garden: ${cardIds}`);
+        } else {
+            console.log("executeGardenRewardAction is not an array.");
+        }
         garden -= 10;
     }
 }
@@ -145,7 +161,7 @@ async function javnosensorgrow(refreshToken) {
     console.log();
 
     while (grow > 0) {
-        console.log(chalk.hex('#FFA07A')(`🔄 Mencoba Mengklaim Grow`));
+        console.log(chalk.hex('#dda0dd')(`🔄 Mencoba Mengklaim Grow`));
         await new Promise(resolve => setTimeout(resolve, 2000));
         const actionQuery = {
             query: "mutation issueGrowAction { issueGrowAction }",
@@ -156,9 +172,9 @@ async function javnosensorgrow(refreshToken) {
         balance += reward;
         grow -= 1;
 
-        console.log(chalk.hex('#32CD32')(`✅ Berhasil Mendapatkan ${reward} Point`));
+        console.log(chalk.hex('#00FF00')(`✅ Berhasil Mendapatkan ${reward} Point`));
         console.log(chalk.hex('#FFD700')(`💰 Total Point: ${balance}`));
-        console.log(chalk.hex('#1E90FF')(`🏺 Grow Tersisa: ${grow}`));
+        console.log(chalk.hex('#006400')(`🏺 Grow Tersisa: ${grow}`));
 
         const commitQuery = {
             query: "mutation commitGrowAction { commitGrowAction }",
@@ -213,8 +229,13 @@ async function javnosensorgarden(refreshToken) {
             operationName: "executeGardenRewardAction"
         };
         const mineGarden = await javhd(API_URL, 'POST', gardenActionQuery);
-        const cardIds = mineGarden.data.executeGardenRewardAction.data.map(item => item.cardId);
-        console.log(`Opened Garden: ${cardIds}`);
+        console.log(JSON.stringify(mineGarden, null, 2));
+        if (Array.isArray(mineGarden.data.executeGardenRewardAction)) {
+            const cardIds = mineGarden.data.executeGardenRewardAction.map(item => item.data.cardId);
+            console.log(`Opened Garden: ${cardIds}`);
+        } else {
+            console.log("executeGardenRewardAction is not an array.");
+        }
         garden -= 10;
     }
 }
