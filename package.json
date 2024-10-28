@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "hana.js",
   "scripts": {
-    "start": "NODE_NO_WARNINGS=1 node hana.js",
+    "start": "NODE_NO_WARNINGS=1 node main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
