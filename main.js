@@ -38,7 +38,6 @@ async function mainMenu() {
         await javpayETH(parseInt(transactions), parseFloat(amount), RPC_URL, network);
         
     } else if (action === '2') {
-        // Menambahkan pilihan untuk Grow, Garden, atau keduanya
         const subAction = await askQuestion(chalk.hex('#90ee90')('\nApa yang ingin dilakukan?\n1: Melakukan Grow\n2: Melakukan Garden\n3: Melakukan Grow dan Garden\nPilih (1/2/3): '));
 
         if (subAction === '1') {
