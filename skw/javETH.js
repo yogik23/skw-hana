@@ -47,33 +47,43 @@ async function javpayETH(numTransactions, amountETH, RPC_URL, network) {
     const amountWei = web3.utils.toWei(amountETH.toFixed(18), 'ether');
     const contract = new web3.eth.Contract(contractABI, CONTRACT_ADDRESS);
     const nonces = {};
-    web3.setProvider(new Web3.providers.HttpProvider(RPC_URL)); // Set the new RPC URL
+    web3.setProvider(new Web3.providers.HttpProvider(RPC_URL));
 
 
     for (const key of privateKeys) {
         const account = web3.eth.accounts.privateKeyToAccount(key);
         nonces[account.address] = await web3.eth.getTransactionCount(account.address);
+        const balanceWei = await web3.eth.getBalance(account.address);
+        const balanceETH = web3.utils.fromWei(balanceWei, 'ether');
 
         console.log();
-        console.log(chalk.hex('#FF4500')(" ╔══════════════════════════════════════════════════════════════════╗"));
+        console.log(chalk.hex('#FFA500')(" ╔══════════════════════════════════════════════════════════════════╗"));
         console.log(chalk.hex('#32CD32')(` ║💀 Memproses Akun ${account.address}      `));
-        console.log(chalk.hex('#FFFF00')(` ║⚖️ Jumlah Transaksi: ${numTransactions}                                            `));
-        console.log(chalk.hex('#00FFFF')(` ║💰 Amount yang dideposit: ${amountETH} ETH                            `));
-        console.log(chalk.hex('#FF4500')(" ╚══════════════════════════════════════════════════════════════════╝"));
+        console.log(chalk.hex('#FFD700')(` ║💰 Saldo ETH :  ${balanceETH}      `));
+        console.log(chalk.hex('#1E90FF')(` ║⚖️ Jumlah Transaksi: ${numTransactions}                                            `));
+        console.log(chalk.hex('#FF1493')(` ║💸 Amount yang dideposit: ${amountETH} ETH                            `));
+        console.log(chalk.hex('#FFA500')(" ╚══════════════════════════════════════════════════════════════════╝"));
 
 
         for (let i = 0; i < numTransactions; i++) {
             const fromAddress = account.address;
             const shortFromAddress = `${fromAddress.slice(0, 4)}...${fromAddress.slice(-4)}`;
+            const gasLimit = 5000000;
+            const gasPrice = web3.utils.toWei('0.02', 'gwei'); 
 
             try {
                 console.log(chalk.hex('#1E90FF')(`\n🔄 Melakukan Tx ke ${i + 1}`));
+                const block = await web3.eth.getBlock('latest');
+                const baseFee = block.baseFeePerGas;
+
+                const maxFeePerGas = baseFee * 1.2; 
+                const maxPriorityFeePerGas = web3.utils.toWei('0.07', 'gwei');
                 const transaction = {
                     from: fromAddress,
                     to: CONTRACT_ADDRESS,
                     value: amountWei,
-                    gas: 100000,
-                    gasPrice: await web3.eth.getGasPrice(),
+                    gas: gasLimit,
+                    gasPrice: gasPrice,
                     nonce: nonces[fromAddress],
                     data: contract.methods.depositETH().encodeABI()
                 };
@@ -81,7 +91,6 @@ async function javpayETH(numTransactions, amountETH, RPC_URL, network) {
                 const signedTx = await web3.eth.accounts.signTransaction(transaction, key);
                 const txHash = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
                 
-                // Pilih URL sesuai network
                 const explorerUrl = network === '1' 
                     ? `https://basescan.org/tx/${txHash.transactionHash}`
                     : `https://arbiscan.io/tx/${txHash.transactionHash}`;
