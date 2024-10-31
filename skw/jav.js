@@ -1,7 +1,6 @@
 const axios = require('axios');
 const fs = require('fs');
 const chalk = require('chalk');
-const { displayskw1 } = require('./diskw');
 
 const data = fs.readFileSync('dataSKW.json', 'utf-8');
 const credentials = JSON.parse(data);
@@ -45,17 +44,28 @@ async function javthresome(refreshToken) {
 }
 
 async function javnosensor(refreshToken) {
-    console.clear();
-    displayskw1();
     console.log(chalk.hex('#e0ffff')(`\n\nMencoba Login dan mendapatkan DATA Tunggu Sebentar!`));
-    const newAccessToken = await javthresome(refreshToken);
-    headers['Authorization'] = `Bearer ${newAccessToken}`;
+
+    try {
+        const newAccessToken = await javthresome(refreshToken);
+        headers['Authorization'] = `Bearer ${newAccessToken}`;
+    } catch (error) {
+        console.error(chalk.hex('#FF4500')(`Error saat mendapatkan token: ${error.message}`));
+        return;
+    }
 
     const infoQuery = {
         query: "query CurrentUser { currentUser { id sub name iconPath depositCount totalPoint evmAddress { userId address } inviter { id name } } }",
         operationName: "CurrentUser"
     };
-    const info = await javhd(API_URL, 'POST', infoQuery);
+
+    let info;
+    try {
+        info = await javhd(API_URL, 'POST', infoQuery);
+    } catch (error) {
+        console.error(chalk.hex('#FF4500')(`Error saat mendapatkan informasi pengguna: ${error.message}`));
+        return;
+    }
 
     let balance = info.data.currentUser.totalPoint;
     let deposit = info.data.currentUser.depositCount;
@@ -65,13 +75,18 @@ async function javnosensor(refreshToken) {
         query: "query GetGardenForCurrentUser { getGardenForCurrentUser { id inviteCode gardenDepositCount gardenStatus { id activeEpoch growActionCount gardenRewardActionCount } gardenMilestoneRewardInfo { id gardenDepositCountWhenLastCalculated lastAcquiredAt createdAt } gardenMembers { id sub name iconPath depositCount } } }",
         operationName: "GetGardenForCurrentUser"
     };
-    const profile = await javhd(API_URL, 'POST', profileQuery);
+
+    let profile;
+    try {
+        profile = await javhd(API_URL, 'POST', profileQuery);
+    } catch (error) {
+        console.error(chalk.hex('#FF4500')(`Error saat mendapatkan profil pengguna: ${error.message}`));
+        return;
+    }
 
     let grow = profile.data.getGardenForCurrentUser.gardenStatus.growActionCount;
     let garden = profile.data.getGardenForCurrentUser.gardenStatus.gardenRewardActionCount;
 
-    console.clear();
-    displayskw1();
     console.log(`\n`);
     console.log(chalk.hex('#FF4500')(" ╔══════════════════════════════════════════════════════════╗"));
     console.log(chalk.hex('#e0ffff')(` ║💀 Akun ${xnxx}                                         `));
@@ -85,11 +100,20 @@ async function javnosensor(refreshToken) {
     while (grow > 0) {
         console.log(chalk.hex('#dda0dd')(`🔄 Mencoba Mengklaim Grow`));
         await new Promise(resolve => setTimeout(resolve, 2000));
+
         const actionQuery = {
             query: "mutation issueGrowAction { issueGrowAction }",
             operationName: "issueGrowAction"
         };
-        const mine = await javhd(API_URL, 'POST', actionQuery);
+
+        let mine;
+        try {
+            mine = await javhd(API_URL, 'POST', actionQuery);
+        } catch (error) {
+            console.error(chalk.hex('#FF4500')(`Error saat melakukan klaim Grow: ${error.message}`));
+            break;
+        }
+
         const reward = mine.data.issueGrowAction;
         balance += reward;
         grow -= 1;
@@ -114,10 +138,18 @@ async function javnosensor(refreshToken) {
         };
         await new Promise(resolve => setTimeout(resolve, 2000));
         console.log(chalk.hex('#dda0dd')(`🔄 Melakukan Draw Garden/Hanafuda`));
-        const mineGarden = await javhd(API_URL, 'POST', gardenActionQuery);
+
+        let mineGarden;
+        try {
+            mineGarden = await javhd(API_URL, 'POST', gardenActionQuery);
+        } catch (error) {
+            console.error(chalk.hex('#FF4500')(`Error saat melakukan Draw Garden: ${error.message}`));
+            break;
+        }
+
         if (Array.isArray(mineGarden.data.executeGardenRewardAction)) {
             const cardIds = mineGarden.data.executeGardenRewardAction.map(item => item.data.cardId);
-            console.log(chalk.hex('#00FF00')(`🧧 Berhasil Mendapatkan: ${cardIds}\n`));
+            console.log(chalk.hex('#00FF00')(`🧧 Berhasil Mendapatkan: ${cardIds}`));
             console.log(chalk.hex('#FF4500')(`⏳ Menunggu Proses berikutnya...\n`));
         } else {
             console.log("executeGardenRewardAction is not an array.");
@@ -127,8 +159,6 @@ async function javnosensor(refreshToken) {
 }
 
 async function javnosensorgrow(refreshToken) {
-    console.clear();
-    displayskw1();
     console.log(chalk.hex('#e0ffff')(`\n\nMencoba Login dan mendapatkan DATA Tunggu Sebentar!`));
     const newAccessToken = await javthresome(refreshToken);
     headers['Authorization'] = `Bearer ${newAccessToken}`;
@@ -151,8 +181,6 @@ async function javnosensorgrow(refreshToken) {
 
     let grow = profile.data.getGardenForCurrentUser.gardenStatus.growActionCount;
 
-    console.clear();
-    displayskw1();
     console.log(`\n`);
     console.log(chalk.hex('#FF4500')(" ╔══════════════════════════════════════════════════════════╗"));
     console.log(chalk.hex('#e0ffff')(` ║💀 Akun ${xnxx}                                         `));
@@ -189,8 +217,6 @@ async function javnosensorgrow(refreshToken) {
 
 
 async function javnosensorgarden(refreshToken) {
-    console.clear();
-    displayskw1();
     console.log(chalk.hex('#e0ffff')(`\n\nMencoba Login dan Mendapatkan DATA Tunggu Sebentar!`));
     const newAccessToken = await javthresome(refreshToken);
     headers['Authorization'] = `Bearer ${newAccessToken}`;
@@ -213,8 +239,6 @@ async function javnosensorgarden(refreshToken) {
 
     let garden = profile.data.getGardenForCurrentUser.gardenStatus.gardenRewardActionCount;
 
-    console.clear();
-    displayskw1();
     console.log(`\n`);
     console.log(chalk.hex('#FF4500')(" ╔══════════════════════════════════════════════════════════╗"));
     console.log(chalk.hex('#e0ffff')(` ║💀 Akun ${xnxx}                                         `));
@@ -244,7 +268,33 @@ async function javnosensorgarden(refreshToken) {
     }
 }
 
+async function ahKimochi(refreshToken) {
+    try {
+        const newAccessToken = await javthresome(refreshToken);
+        headers['Authorization'] = `Bearer ${newAccessToken}`;
+    } catch (error) {
+        console.error(chalk.hex('#FF4500')(`Error saat mendapatkan token: ${error.message}`));
+        return null;
+    }
+
+    const infoQuery = {
+        query: "query CurrentUser { currentUser { totalPoint } }",
+        operationName: "CurrentUser"
+    };
+
+    let info;
+    try {
+        info = await javhd(API_URL, 'POST', infoQuery);
+    } catch (error) {
+        console.error(chalk.hex('#FF4500')(`Error saat mendapatkan informasi pengguna: ${error.message}`));
+        return null;
+    }
+
+    return { kimochi: info.data.currentUser.totalPoint };
+}
+
 module.exports = {
+    ahKimochi,
     accessTokens,
     javnosensor,
     javnosensorgrow,
