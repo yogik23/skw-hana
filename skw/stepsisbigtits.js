@@ -34,6 +34,8 @@ async function skandal() {
     console.clear();
     displayskw2();
     console.log();
+    let totalBalance = 0;
+    let totalAkun = 0;
 
     try {
         for (const refreshToken of accessTokens) {
