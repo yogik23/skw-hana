@@ -22,7 +22,7 @@ async function mainMenu() {
     const action = await askQuestion(chalk.hex('#32CD32')('\n\nApa yang ingin dilakukan?') + 
                                      chalk.hex('#1E90FF')('\n1: Melakukan Deposit') + 
                                      chalk.hex('#00CED1')('\n2: Melakukan Grow dan Garden') + 
-                                     chalk.hex('#FFA500')('\n3: Keduanya Otomatis') + 
+                                     chalk.hex('#FFA500')('\n3: Otomatis Claim Grow Setiap Jam') + 
                                      chalk.hex('#32CD32')('\nPilih (1/2/3): '));
 
     if (action === '1') {
