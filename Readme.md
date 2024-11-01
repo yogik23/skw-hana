@@ -42,37 +42,22 @@ format `data.json`
 ```
 npm run start
 ```
-**5. Jika ingin melakukan Otomatis Auto Tx dan Grow Garden `pilih 3 saat menjalankan npm run start`** \
-**6. Buat file `.env` untuk Melakukan Otomatis**
+**5. Skip Step Seterusnya Jika tidak ingin mengirim notif ke telegram** \
+**6. Buat file `.env`**
 ```
 cp env.contoh .env && nano.env
 ```
 format .env
 ```
-SEND_TELEGRAM_MESSAGE=true // ganti ke false untuk nonaktif telegram
-TELEGRAM_BOT_TOKEN=TokenBOTdariBotFather // jika false jangan disi
-TELEGRAM_CHAT_ID=UseridTelegram // jika false jangan disi
-NUM_TRANSACTIONS=Jumlah Transaksi(3-10 cukup)
-AMOUNT_ETH=deposit berapa(0.000001) cukup
-RPC_URL=https://arb1.arbitrum.io/rpc
-NETWORK=2
-SKWT=2
-
-Ganti ini Kalau Pakai Base
-RPC_URL=https://mainnet.base.org
-NETWORK=1
-SKWT=1
+SEND_TELEGRAM_MESSAGE=true
+TELEGRAM_BOT_TOKEN=TokenBOTdariBotFather
+TELEGRAM_CHAT_ID=UseridTelegram
 ```
 contoh `.env`
 ```
 SEND_TELEGRAM_MESSAGE=true
 TELEGRAM_BOT_TOKEN=7543123403:AAHTBPzDhTlVy0W1rn48tY-T64a7B7TJRzs
 TELEGRAM_CHAT_ID=1234567890
-NUM_TRANSACTIONS=3
-AMOUNT_ETH=0.0000001
-RPC_URL=https://arb1.arbitrum.io/rpc
-NETWORK=2
-SKWT=2
 ```
 
 
