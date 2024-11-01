@@ -192,7 +192,6 @@ async function javnosensorgrow(refreshToken) {
 
     while (grow > 0) {
         console.log(chalk.hex('#dda0dd')(`🔄 Mencoba Mengklaim Grow`));
-        await new Promise(resolve => setTimeout(resolve, 2000));
         const actionQuery = {
             query: "mutation issueGrowAction { issueGrowAction }",
             operationName: "issueGrowAction"
