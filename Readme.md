@@ -3,7 +3,7 @@
 ## Fitur
 - Auto Tx
 - Auto Claim Grow dan Garden
-- Auto Tx dan Grow Garden
+- Auto Claim Grow Setiap 1 Jam
 - Send Notif ke Telegram
 
 ### [Link Hanafuda](https://hanafuda.hana.network)
