@@ -1,27 +1,8 @@
-const { javpayETH } = require('./javETH');
-const { accessTokens, javnosensor, ahKimochi } = require('./jav');
+const { accessTokens, javnosensorgrow, ahKimochi } = require('./jav');
 const { displayskw2 } = require('./diskw');
 const chalk = require('chalk');
 const axios = require('axios');
 require('dotenv').config();
-
-async function startCD(seconds) {
-    return new Promise((resolve) => {
-        let countdown = seconds;
-
-        const countdownInterval = setInterval(() => {
-            if (countdown <= 0) {
-                clearInterval(countdownInterval);
-                resolve();
-            } else {
-                process.stdout.clearLine();
-                process.stdout.cursorTo(0);
-                process.stdout.write(chalk.hex('#FFD700')(`⏳ Waktu Tersisa: ${countdown} detik\r`));
-                countdown--;
-            }
-        }, 1000);
-    });
-}
 
 async function sendToTelegram(totalAkun, totalBalance) {
   const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
@@ -53,22 +34,10 @@ async function skandal() {
     console.clear();
     displayskw2();
     console.log();
-    const numTransactions = parseInt(process.env.NUM_TRANSACTIONS);
-    const amountETH = parseFloat(process.env.AMOUNT_ETH);
-    const RPC_URL = process.env.RPC_URL;
-    const network = process.env.NETWORK;
-    const SKWT = process.env.SKWT;
-    let totalBalance = 0;
-    let totalAkun = 0;
 
     try {
-        await javpayETH(numTransactions, amountETH, RPC_URL, network, SKWT);
-        console.log(chalk.hex('#2E8B57')(`☑️ Proses Deposit Sukses Menunggu Delay Sebelum Meanjutkan Claim...`));
-        await startCD(10);
-        console.clear();
-        
         for (const refreshToken of accessTokens) {
-            await javnosensor(refreshToken);
+            await javnosensorgrow(refreshToken);
             const accountInfo = await ahKimochi(refreshToken);
             if (accountInfo) {
                 totalBalance += accountInfo.kimochi;
@@ -86,7 +55,11 @@ async function skandal() {
         console.log(chalk.hex('#8A2BE2')("╠═══════════════════════════════════════════════════════════════╣"));
         console.log(chalk.hex('#32CD32')(`✅  Proses semua akun selesai. Menunggu delay sebelum mengulang`));
         console.log(chalk.hex('#FFD700')("╚═══════════════════════════════════════════════════════════════╝"));
-        await sendToTelegram(totalAkun, totalBalance);
+      
+        const sendTelegramMessage = process.env.SEND_TELEGRAM_MESSAGE === 'true';
+        if (sendTelegramMessage) {
+            await sendToTelegram(totalAkun, totalBalance);
+        }
     } catch (error) {
         console.error(chalk.hex('#FF4500')(`❌ Error saat memulai bot: ${error.message}`));
     }
@@ -95,6 +68,7 @@ async function skandal() {
 async function stepsisbigtits() {
   console.clear();
   const intervalTime = (1 * 60 * 60 * 1000);
+  let countdown;
 
   const runBot = async () => {
     await skandal(); 
@@ -102,17 +76,21 @@ async function stepsisbigtits() {
   };
 
   const startCountdown = () => {
-    let countdown = intervalTime / 1000; 
+    if (countdown) {
+      clearInterval(countdown);
+    }
 
-    const countdownInterval = setInterval(() => {
-      if (countdown <= 0) {
-        clearInterval(countdownInterval); 
+    let timeLeft = intervalTime / 1000; 
+
+    countdown = setInterval(() => {
+      if (timeLeft <= 0) {
+        clearInterval(countdown); 
         console.log(chalk.hex('#DC143C')('❌ Waktu habis, menjalankan bot kembali...\n')); 
       } else {
         process.stdout.clearLine();
         process.stdout.cursorTo(0);
-        process.stdout.write(chalk.hex('#8A2BE2')(`⏳ Cooldown Pengulangan: ${countdown} detik`));
-        countdown--;
+        process.stdout.write(chalk.hex('#8A2BE2')(`⏳ Cooldown Pengulangan: ${timeLeft} detik`));
+        timeLeft--;
       }
     }, 1000);
   };
