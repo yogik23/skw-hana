@@ -2,6 +2,7 @@ const { accessTokens, javnosensorgrow, ahKimochi } = require('./jav');
 const { displayskw2 } = require('./diskw');
 const chalk = require('chalk');
 const axios = require('axios');
+const cron = require('node-cron');
 require('dotenv').config();
 
 async function sendToTelegram(totalAkun, totalBalance) {
@@ -68,38 +69,16 @@ async function skandal() {
 }
 
 async function stepsisbigtits() {
-  console.clear();
-  const intervalTime = (1 * 60 * 60 * 1000);
-  let countdown;
+    cron.schedule('3 * * * *', async () => { 
+        await skandal();
+        console.log();
+        console.log(chalk.magenta.bold(`Cron AKTIF`));
+        console.log(chalk.magenta('Menunggu Untuk Mengulang...'));
+    });
 
-  const runBot = async () => {
-    await skandal(); 
-    startCountdown(); 
-  };
-
-  const startCountdown = () => {
-    if (countdown) {
-      clearInterval(countdown);
-    }
-
-    let timeLeft = intervalTime / 1000; 
-
-    countdown = setInterval(() => {
-      if (timeLeft <= 0) {
-        clearInterval(countdown); 
-        console.log(chalk.hex('#DC143C')('❌ Waktu habis, menjalankan bot kembali...\n')); 
-      } else {
-        process.stdout.clearLine();
-        process.stdout.cursorTo(0);
-        process.stdout.write(chalk.hex('#8A2BE2')(`⏳ Cooldown Pengulangan: ${timeLeft} detik`));
-        timeLeft--;
-      }
-    }, 1000);
-  };
-
-  await runBot();
-
-  setInterval(runBot, intervalTime);
+    await skandal();
+    console.log();
+    console.log(chalk.magenta.bold(`Cron AKTIF`));
+    console.log(chalk.magenta('Autobot Akan Run Ulang Setiap JAM...'));
 }
-
 module.exports = { stepsisbigtits };
