@@ -159,58 +159,97 @@ async function javnosensor(refreshToken) {
 }
 
 async function javnosensorgrow(refreshToken) {
-    console.log(chalk.hex('#e0ffff')(`\n\nMencoba Login dan mendapatkan DATA Tunggu Sebentar!`));
-    const newAccessToken = await javthresome(refreshToken);
-    headers['Authorization'] = `Bearer ${newAccessToken}`;
+    while (true) { 
+        console.log(chalk.hex('#e0ffff')(`\n\nMencoba Login dan mendapatkan DATA Tunggu Sebentar!`));
+        let newAccessToken;
 
-    const infoQuery = {
-        query: "query CurrentUser { currentUser { id sub name iconPath depositCount totalPoint evmAddress { userId address } inviter { id name } } }",
-        operationName: "CurrentUser"
-    };
-    const info = await javhd(API_URL, 'POST', infoQuery);
+        try {
+            newAccessToken = await javthresome(refreshToken);
+            headers['Authorization'] = `Bearer ${newAccessToken}`;
+        } catch (error) {
+            console.error(chalk.red(`❌ Gagal mendapatkan token akses: ${error.message}`));
+            continue;
+        }
 
-    let balance = info.data.currentUser.totalPoint;
-    let deposit = info.data.currentUser.depositCount;
-    let xnxx = info.data.currentUser.evmAddress.address;
-
-    const profileQuery = {
-        query: "query GetGardenForCurrentUser { getGardenForCurrentUser { id inviteCode gardenDepositCount gardenStatus { id activeEpoch growActionCount gardenRewardActionCount } gardenMilestoneRewardInfo { id gardenDepositCountWhenLastCalculated lastAcquiredAt createdAt } gardenMembers { id sub name iconPath depositCount } } }",
-        operationName: "GetGardenForCurrentUser"
-    };
-    const profile = await javhd(API_URL, 'POST', profileQuery);
-
-    let grow = profile.data.getGardenForCurrentUser.gardenStatus.growActionCount;
-
-    console.log(`\n`);
-    console.log(chalk.hex('#FF4500')(" ╔══════════════════════════════════════════════════════════╗"));
-    console.log(chalk.hex('#e0ffff')(` ║💀 Akun ${xnxx}                                         `));
-    console.log(chalk.hex('#FFFF00')(` ║💰 POINTS: ${balance}                                     `));
-    console.log(chalk.hex('#FFD700')(` ║⚱️ Total Deposit: ${deposit}                                 `));
-    console.log(chalk.hex('#1E90FF')(` ║🏺 Total Grow: ${grow}                                     `));
-    console.log(chalk.hex('#FF4500')(" ╚══════════════════════════════════════════════════════════╝"));
-    console.log();
-
-    while (grow > 0) {
-        console.log(chalk.hex('#dda0dd')(`🔄 Mencoba Mengklaim Grow`));
-        const actionQuery = {
-            query: "mutation issueGrowAction { issueGrowAction }",
-            operationName: "issueGrowAction"
+        const infoQuery = {
+            query: "query CurrentUser { currentUser { id sub name iconPath depositCount totalPoint evmAddress { userId address } inviter { id name } } }",
+            operationName: "CurrentUser"
         };
-        const mine = await javhd(API_URL, 'POST', actionQuery);
-        const reward = mine.data.issueGrowAction;
-        balance += reward;
-        grow -= 1;
 
-        console.log(chalk.hex('#00FF00')(`✅ Berhasil Mendapatkan ${reward} Point`));
-        console.log(chalk.hex('#FFD700')(`💰 Total Point: ${balance}`));
-        console.log(chalk.hex('#e0ffff')(`🏺 Grow Tersisa: ${grow}`));
+        let info;
+        try {
+            info = await javhd(API_URL, 'POST', infoQuery);
+        } catch (error) {
+            console.error(chalk.red(`❌ Gagal mendapatkan informasi pengguna: ${error.message}`));
+            continue;
+        }
 
-        const commitQuery = {
-            query: "mutation commitGrowAction { commitGrowAction }",
-            operationName: "commitGrowAction"
+        let balance = info.data.currentUser.totalPoint;
+        let deposit = info.data.currentUser.depositCount;
+        let xnxx = info.data.currentUser.evmAddress.address;
+
+        const profileQuery = {
+            query: "query GetGardenForCurrentUser { getGardenForCurrentUser { id inviteCode gardenDepositCount gardenStatus { id activeEpoch growActionCount gardenRewardActionCount } gardenMilestoneRewardInfo { id gardenDepositCountWhenLastCalculated lastAcquiredAt createdAt } gardenMembers { id sub name iconPath depositCount } } }",
+            operationName: "GetGardenForCurrentUser"
         };
-        console.log(chalk.hex('#FF4500')(`⏳ Menunggu Proses berikutnya...\n`));
-        await javhd(API_URL, 'POST', commitQuery);
+
+        let profile;
+        try {
+            profile = await javhd(API_URL, 'POST', profileQuery);
+        } catch (error) {
+            console.error(chalk.red(`❌ Gagal mendapatkan data kebun: ${error.message}`));
+            continue;
+        }
+
+        let grow = profile.data.getGardenForCurrentUser.gardenStatus.growActionCount;
+
+        console.log(`\n`);
+        console.log(chalk.hex('#FF4500')(" ╔══════════════════════════════════════════════════════════╗"));
+        console.log(chalk.hex('#e0ffff')(` ║💀 Akun ${xnxx}                                         `));
+        console.log(chalk.hex('#FFFF00')(` ║💰 POINTS: ${balance}                                     `));
+        console.log(chalk.hex('#FFD700')(` ║⚱️ Total Deposit: ${deposit}                                 `));
+        console.log(chalk.hex('#1E90FF')(` ║🏺 Total Grow: ${grow}                                     `));
+        console.log(chalk.hex('#FF4500')(" ╚══════════════════════════════════════════════════════════╝"));
+        console.log();
+
+        while (grow > 0) {
+            console.log(chalk.hex('#dda0dd')(`🔄 Mencoba Mengklaim Grow`));
+            const actionQuery = {
+                query: "mutation issueGrowAction { issueGrowAction }",
+                operationName: "issueGrowAction"
+            };
+
+            let mine;
+            try {
+                mine = await javhd(API_URL, 'POST', actionQuery);
+            } catch (error) {
+                console.error(chalk.red(`❌ Gagal mengklaim grow: ${error.message}`));
+                break;
+            }
+
+            const reward = mine.data.issueGrowAction;
+            balance += reward;
+            grow -= 1;
+
+            console.log(chalk.hex('#00FF00')(`✅ Berhasil Mendapatkan ${reward} Point`));
+            console.log(chalk.hex('#FFD700')(`💰 Total Point: ${balance}`));
+            console.log(chalk.hex('#e0ffff')(`🏺 Grow Tersisa: ${grow}`));
+
+            const commitQuery = {
+                query: "mutation commitGrowAction { commitGrowAction }",
+                operationName: "commitGrowAction"
+            };
+
+            console.log(chalk.hex('#FF4500')(`⏳ Menunggu Proses berikutnya...\n`));
+            try {
+                await javhd(API_URL, 'POST', commitQuery);
+            } catch (error) {
+                console.error(chalk.red(`❌ Gagal melakukan komit grow: ${error.message}`));
+                break;
+            }
+        }
+
+        break;
     }
 }
 
