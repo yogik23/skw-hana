@@ -234,7 +234,7 @@ async function javnosensorgrow(refreshToken) {
             const reward = mine.data.issueGrowAction;
             balance += reward;
             grow -= 1;
-            hasClaimedGrow = true; // Set menjadi true jika berhasil mengklaim
+            hasClaimedGrow = true;
 
             console.log(chalk.hex('#00FF00')(`✅ Berhasil Mendapatkan ${reward} Point`));
             console.log(chalk.hex('#FFD700')(`💰 Total Point: ${balance}`));
@@ -255,10 +255,10 @@ async function javnosensorgrow(refreshToken) {
         }
 
         if (hasClaimedGrow) {
-            await skandal(); // Panggil skandal hanya jika ada klaim
+            await skandal();
         }
 
-        break; // Keluar dari loop utama
+        break;
     }
 }
 
