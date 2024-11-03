@@ -1,10 +1,8 @@
 const chalk = require('chalk');
 const { displayskw, displayskw1 } = require('./skw/diskw');
-const { stepsisbigtits } = require('./skw/stepsisbigtits');
 const { javpayETH } = require('./skw/javETH');
-const { accessTokens, javnosensor, javnosensorgarden, javnosensorgrow } = require('./skw/jav');
+const { accessTokens, javnosensor, javnosensorgarden, javnosensorgrow, stepsisbigtits } = require('./skw/jav');
 const readline = require('readline');
-
 
 const rl = readline.createInterface({
     input: process.stdin,
