@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 const { displayskw, displayskw1 } = require('./skw/diskw');
 const { javpayETH } = require('./skw/javETH');
-const { accessTokens, javnosensor, javnosensorgarden, javnosensorgrow, stepsisbigtits } = require('./skw/jav');
+const { ethbos, stepsisbigtits } = require('./skw/jav');
 const readline = require('readline');
 
 const rl = readline.createInterface({
@@ -19,8 +19,8 @@ async function mainMenu() {
 
     const action = await askQuestion(chalk.hex('#32CD32')('\n\nApa yang ingin dilakukan?') + 
                                      chalk.hex('#1E90FF')('\n1: Melakukan Deposit') + 
-                                     chalk.hex('#00CED1')('\n2: Melakukan Grow dan Garden') + 
-                                     chalk.hex('#FFA500')('\n3: Otomatis Claim Grow Setiap Jam') + 
+                                     chalk.hex('#00CED1')('\n2: Otomatis Claim Semua Grow Setiap Jam') + 
+                                     chalk.hex('#FFA500')('\n3: Eth Gratis dari Prabowo') + 
                                      chalk.hex('#32CD32')('\nPilih (1/2/3): '));
 
     if (action === '1') {
@@ -51,42 +51,10 @@ async function mainMenu() {
         await javpayETH(parseInt(transactions), parseFloat(amount), RPC_URL, network, SKWT);
         
     } else if (action === '2') {
-        const subAction = await askQuestion(chalk.hex('#32CD32')('\nApa yang ingin dilakukan?') + 
-                                            chalk.hex('#1E90FF')('\n1: Melakukan Grow') + 
-                                            chalk.hex('#00CED1')('\n2: Melakukan Garden') + 
-                                            chalk.hex('#FFA500')('\n3: Melakukan Grow dan Garden') + 
-                                            chalk.hex('#32CD32')('\nPilih (1/2/3): '));
-
-        if (subAction === '1') {
-            for (const refreshToken of accessTokens) {
-                console.clear();
-                displayskw1();
-                await javnosensorgrow(refreshToken);
-            }
-            console.log(chalk.hex('#00FF00')(`Semua Akun Selesai diProses by SKW`));
-            process.exit();
-        } else if (subAction === '2') {
-            for (const refreshToken of accessTokens) {
-                console.clear();
-                displayskw1();
-                await javnosensorgarden(refreshToken);
-            }
-            console.log(chalk.hex('#00FF00')(`Semua Akun Selesai diProses by SKW`));
-            process.exit();
-        } else if (subAction === '3') {
-            for (const refreshToken of accessTokens) {
-                console.clear();
-                displayskw1();
-                await javnosensor(refreshToken);
-            }
-            console.log(chalk.hex('#00FF00')(`Semua Akun Selesai diProses by SKW`));
-            process.exit();
-        } else {
-            console.log(chalk.red('Pilihan tidak valid. Silakan pilih 1, 2, atau 3.'));
-        }
+        await stepsisbigtits();
 
     } else if (action === '3') {
-        await stepsisbigtits();
+        await ethbos();
     } else {
         console.log(chalk.red('Pilihan tidak valid. Silakan pilih 1, 2, atau 3.'));
     }
