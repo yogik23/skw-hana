@@ -260,6 +260,106 @@ async function startCD(seconds) {
     });
 }
 
+async function ngent(refreshToken) {
+    console.clear();
+    displayskw1();
+    console.log(chalk.hex('#e0ffff')(`\n\nMencoba Login Mendapatkan DATA Tunggu Sebentar!`));
+
+    const newAccessToken = await javthresome(refreshToken);
+    headers['Authorization'] = `Bearer ${newAccessToken}`;
+
+    const infoQuery = {
+        query: `query CurrentUser { 
+            currentUser { 
+                id 
+                sub 
+                name 
+                iconPath 
+                depositCount 
+                totalPoint 
+                evmAddress { userId address } 
+                inviter { id name } 
+            } 
+        }`,
+        operationName: "CurrentUser"
+    };
+    const info = await javhd(API_URL, 'POST', infoQuery);
+
+    let balance = info.data.currentUser.totalPoint;
+    let deposit = info.data.currentUser.depositCount;
+    let xnxx = info.data.currentUser.evmAddress.address;
+
+    const profileQuery = {
+        query: `query GetGardenForCurrentUser { 
+            getGardenForCurrentUser { 
+                id 
+                inviteCode 
+                gardenDepositCount 
+                gardenStatus { 
+                    id 
+                    activeEpoch 
+                    growActionCount 
+                    gardenRewardActionCount 
+                } 
+                gardenMilestoneRewardInfo { 
+                    id 
+                    gardenDepositCountWhenLastCalculated 
+                    lastAcquiredAt 
+                    createdAt 
+                } 
+                gardenMembers { 
+                    id 
+                    sub 
+                    name 
+                    iconPath 
+                    depositCount 
+                } 
+            } 
+        }`,
+        operationName: "GetGardenForCurrentUser"
+    };
+    const profile = await javhd(API_URL, 'POST', profileQuery);
+
+    let garden = profile.data.getGardenForCurrentUser.gardenStatus.gardenRewardActionCount;
+
+    console.clear();
+    displayskw1();
+    console.log(`\n`);
+    console.log(chalk.hex('#FF4500')(" ╔══════════════════════════════════════════════════════════════════╗"));
+    console.log(chalk.hex('#e0ffff')(` ║💀 Akun ${xnxx}                                         `));
+    console.log(chalk.hex('#FFFF00')(` ║💰 POINTS: ${balance}                                     `));
+    console.log(chalk.hex('#FFD700')(` ║⚱️ Total Deposit: ${deposit}                                 `));
+    console.log(chalk.hex('#00FFFF')(` ║🏮 Total Garden: ${garden}                                  `));
+    console.log(chalk.hex('#FF4500')(" ╚══════════════════════════════════════════════════════════════════╝"));
+    console.log();
+
+    while (garden >= 10) {
+        const gardenActionQuery = {
+            query: `mutation executeGardenRewardAction($limit: Int!) { 
+                executeGardenRewardAction(limit: $limit) { 
+                    data { 
+                        cardId 
+                        group 
+                    } 
+                    isNew 
+                } 
+            }`,
+            variables: { limit: 10 },
+            operationName: "executeGardenRewardAction"
+        };
+        const mineGarden = await javhd(API_URL, 'POST', gardenActionQuery);
+
+        if (mineGarden?.data?.executeGardenRewardAction) {
+            const cardIds = mineGarden.data.executeGardenRewardAction.map(item => item.data.cardId);
+            console.log(`Opened Garden: ${cardIds}`);
+        } else {
+            console.log("❌ Gagal mendapatkan data kartu. Response API:", JSON.stringify(mineGarden, null, 2));
+        }
+
+        garden -= 10;
+    }
+}
+
 async function stepsisbigtits() {
     console.clear();
     displayskw1();
@@ -280,8 +380,29 @@ async function stepsisbigtits() {
     }
 }
 
+async function javnosensorgrow() {
+    console.clear();
+    displayskw1();
+
+    for (const refreshToken of accessTokens) {
+        try {
+            console.log(chalk.hex('#00FF00')(`🔄 Memproses akun dengan refresh token: ${refreshToken.substring(0, 10)}...`));
+            await ngent(refreshToken);
+            await startCD(5);
+        } catch (error) {
+            console.error(chalk.hex('#FF4500')(`❌ Gagal memproses akun dengan refresh token ${refreshToken.substring(0, 10)}...: ${error.message}`));
+            await startCD(10);
+            continue;
+        }
+    }
+
+    console.log(chalk.hex('#FFD700')("✅ Semua akun telah diproses, menunggu 5 menit sebelum mengulang..."));
+}
+
+
 
 module.exports = {
     ethbos,
     stepsisbigtits,
+    javnosensorgrow,
 };
