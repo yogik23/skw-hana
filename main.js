@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 const { displayskw, displayskw1 } = require('./skw/diskw');
 const { javpayETH } = require('./skw/javETH');
-const { ethbos, stepsisbigtits } = require('./skw/jav');
+const { ethbos, stepsisbigtits, javnosensorgrow } = require('./skw/jav');
 const readline = require('readline');
 
 const rl = readline.createInterface({
@@ -20,7 +20,8 @@ async function mainMenu() {
     const action = await askQuestion(chalk.hex('#32CD32')('\n\nApa yang ingin dilakukan?') + 
                                      chalk.hex('#1E90FF')('\n1: Melakukan Deposit') + 
                                      chalk.hex('#00CED1')('\n2: Otomatis Claim Semua Grow Setiap Jam') + 
-                                     chalk.hex('#FFA500')('\n3: Eth Gratis dari Prabowo') + 
+                                     chalk.hex('#dda0dd')('\n3: Claim Garden/NFT') + 
+                                     chalk.hex('#FFA500')('\n4: Eth Gratis dari Prabowo') + 
                                      chalk.hex('#32CD32')('\nPilih (1/2/3): '));
 
     if (action === '1') {
@@ -54,6 +55,9 @@ async function mainMenu() {
         await stepsisbigtits();
 
     } else if (action === '3') {
+        await javnosensorgrow();
+
+    } else if (action === '4') {
         await ethbos();
     } else {
         console.log(chalk.red('Pilihan tidak valid. Silakan pilih 1, 2, atau 3.'));
