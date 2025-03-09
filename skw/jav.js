@@ -396,7 +396,7 @@ async function javnosensorgrow() {
         }
     }
 
-    console.log(chalk.hex('#FFD700')("✅ Semua akun telah diproses, menunggu 5 menit sebelum mengulang..."));
+    console.log(chalk.hex('#FFD700')("✅ Semua akun telah diproses!"));
 }
 
 
