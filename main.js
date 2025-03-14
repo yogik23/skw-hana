@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 const { displayskw, displayskw1 } = require('./skw/diskw');
 const { javpayETH } = require('./skw/javETH');
-const { ethbos, stepsisbigtits, javnosensorgrow } = require('./skw/jav');
+const { ethbos, stepsisbigtits, javnosensormilf } = require('./skw/jav');
 const readline = require('readline');
 
 const rl = readline.createInterface({
@@ -55,7 +55,7 @@ async function mainMenu() {
         await stepsisbigtits();
 
     } else if (action === '3') {
-        await javnosensorgrow();
+        await javnosensormilf();
 
     } else if (action === '4') {
         await ethbos();
