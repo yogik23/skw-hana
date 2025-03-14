@@ -380,7 +380,7 @@ async function stepsisbigtits() {
     }
 }
 
-async function javnosensorgrow() {
+async function javnosensormilf() {
     console.clear();
     displayskw1();
 
@@ -399,10 +399,8 @@ async function javnosensorgrow() {
     console.log(chalk.hex('#FFD700')("✅ Semua akun telah diproses!"));
 }
 
-
-
 module.exports = {
     ethbos,
     stepsisbigtits,
-    javnosensorgrow,
+    javnosensormilf,
 };
